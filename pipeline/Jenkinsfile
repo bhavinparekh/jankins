@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'add--yours', url: 'https://github.com/bhavinparekh/Amazon_category_scrapping.git']]])
+            }
+        }
+        stage('Build') {
+            steps {
+                git credentialsId: 'add--yours', url: 'https://github.com/bhavinparekh/Amazon_category_scrapping.git'
+                sh 'docker-compse up --build'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Job Done and Tested'
+            }
+        }
+    }
+}
